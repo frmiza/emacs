@@ -1,21 +1,60 @@
-* Basic general configs
-
-** Disable start screem.
-
+* Package Manager
+** Config Packge
 #+begin_src emacs-lisp
-(setq inhibit-startup-message t)
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  (unless package-archive-contents
+    (package-refresh-contents))
 #+end_src
 
-** User Interface (UI) Configuration. 
-
+** Config use-package
 #+begin_src emacs-lisp
-(menu-bar-mode -1)            ; no menu bar
-(tool-bar-mode -1)            ; no tools bar
-(scroll-bar-mode -1)          ; no scroll bars
-(tooltip-mode -1)             ; no tooltips
-(set-fringe-mode 10)          ; frame edges set to 10px
-(column-number-mode 1)        ; modeline shows column number
-(save-place-mode 1)           ; remember cursor position
-(recentf-mode 1)              ; remember recent files
-(savehist-mode 1)             ; enable history saving
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+* Packages
+** Evil
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "modules/evil/evil.org" user-emacs-directory))
+#+end_src
+
+** General
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "keybinds/general/general.org" user-emacs-directory))
+#+end_src
+
+** Org Mode
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "modules/org/org.org" user-emacs-directory))
+#+end_src
+
+** Themes
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "themes/themes.org" user-emacs-directory))
+#+end_src
+
+** Buffer
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "modules/buffers/buffers.org" user-emacs-directory))
+#+end_src
+
+** Completion
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "modules/dev/completion/company.org" user-emacs-directory))
+#+end_src
+
+** LAnguages
+#+begin_src emacs-lisp
+  (org-babel-load-file
+   (expand-file-name "modules/dev/eglot/eglot.org" user-emacs-directory))
 #+end_src

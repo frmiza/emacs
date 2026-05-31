@@ -1,0 +1,100 @@
+* Config General
+#+begin_src elisp
+  (use-package general
+    :ensure t
+    :config
+    (general-evil-setup t))
+#+end_src
+
+#+begin_src elisp
+  (require 'general)
+  (general-create-definer leader-key
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "\\" ;; Define o leader como \
+    :global-prefix "\\")
+
+  (defun setup-consult-mappings ()
+    
+    (leader-key
+      ;; Misc
+      "TAB" '(comment-line :wk "Comment lines")
+      "q q" '(save-buffers-kill-terminal :wk "Quit emacs")
+      
+      ;; Buffers with  Consult
+      "b" '(:ignore t :wk "Buffers")
+      "b b" '(consult-buffer :wk "Switch buffer (Consult)")
+      "b i" '(ibuffer :wk "Ibuffer")
+      "b k" '(kill-current-buffer :wk "Kill current buffer")
+      "b s" '(save-buffer :wk "Save buffer")
+      "b r" '(consult-recent-file :wk "Recent files (Consult)")
+      
+      ;; Files
+      "f" '(:ignore t :wk "Files")
+      "f f" '(find-file :wk "Find file")
+      "f r" '(consult-recent-file :wk "Recent files")
+      "f d" '(dired :wk "Open directory (Dired)")
+
+      ;; Grep with Consult
+      "g"   '(:ignore t :wk "Grep/Search")
+      "g s" '(consult-line :wk "Search line in buffer")
+      "g b" '(consult-multi-occur :wk "Search in all buffers")
+      "g g" '(consult-ripgrep :wk "Ripgrep in project")
+      "g f" '(consult-find :wk "Find file in project (recursive)")
+      "g i" '(consult-outline :wk "Go to outline/symbols")))
+
+  (defun setup-treemacs-keys ()
+    (leader-key
+     "t"   '(:ignore t :wk "Toggle")
+     "t o" '(treemacs :wk "Open Treemacs")
+     "t k" '(treemacs-quit :wk "Close Treemacs")))
+      
+  (defun keymaps-basic-edit ()
+    (general-define-key
+     :states 'normal
+     "C-a" "ggVG"))      ;; Select all
+
+  (defun keymaps-window-nav ()
+    (general-define-key
+     :states 'normal
+     "C-h"     'evil-window-left  
+     "C-l"     'evil-window-right))
+
+  (defun keymaps-window-resize ()
+    (general-define-key
+     :states 'normal
+     "M-h"       'evil-window-increase-width
+     "M-l"       'evil-window-decrease-width))
+
+  (defun setup-vertico-mappings ()
+    (general-define-key
+     :keymaps 'vertico-map
+     "C-j" 'vertico-next
+     "C-k" 'vertico-previous
+     "C-f" 'vertico-exit))
+
+#+end_src
+
+  
+#+end_src
+
+#+begin_src elisp
+  (keymaps-basic-edit)
+  (keymaps-window-nav)
+  (keymaps-window-resize)
+  (setup-vertico-mappings)
+  (setup-consult-mappings)
+  (setup-treemacs-keys)
+#+end_src
+
+* Config Drag-Stuff
+#+begin_src emacs-lisp
+  (use-package drag-stuff
+    :ensure t
+    :config
+    (drag-stuff-global-mode 1)
+    (general-define-key
+     :states 'visual
+     "J" 'drag-stuff-down
+     "K" 'drag-stuff-up))
+#+end_src

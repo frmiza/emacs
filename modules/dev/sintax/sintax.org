@@ -1,0 +1,7 @@
+* Sintax Config
+
+** Flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :hook (prog-mode-hook . flycheck-mode))
+#+end_src
