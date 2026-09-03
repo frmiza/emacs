@@ -1,0 +1,31 @@
+#+TITLE: UI - Treemacs
+#+PROPERTY: header-args:emacs-lisp :tangle ./treemacs.el :mkdirp yes :comments org :shebang ";;; -*- lexical-binding: t; -*-"
+
+* Treemacs
+ *Treemacs:* Provide a tree buffer thats show up a diretory tree based on current opend folder, see [[file: ../keybinds/general.org][keybinds]] for more details about config keyboard shortcuts 
+
+** Configuration: 
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :config
+    (setq treemacs-show-hidden-files t
+          treemacs-no-png-images t
+          treemacs-is-never-other-window nil))
+#+end_src
+
+** Shotcuts
+*** Description/Keybind
+ 1) *Open Treemacs:*
+    - *<leader> + t + o*
+      
+ 2) *Close Treemacs:* 
+    - *<leader> + t + k*
+      
+ 3) *Add/Changer root dir:*
+    *<leader> + t + r*
+    
+ 4) *Remove current root:*
+    *<leader> + t + d*
+    
+ 5) *Prune unesed folders from root:*
+    *<leader> + t + c*

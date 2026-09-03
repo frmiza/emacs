@@ -1,0 +1,20 @@
+#+TITLE: Dev - Tidal (rascunho, desabilitado)
+#+PROPERTY: header-args:emacs-lisp :tangle no
+
+Bloco que estava comentado no antigo =init.el=, preservado aqui como
+documentação. Como o header usa =:tangle no=, este arquivo nunca gera
+=.el= e nunca é carregado — nem precisa estar na lista de
+[[file:../../core/core-loader.el][core-loader.el]]. Descomente o
+=:tangle= (ex.: para =./tidal.el=) e adicione à lista de módulos
+quando quiser ativar de verdade.
+
+* Tidal Cycles
+#+begin_src emacs-lisp
+  (use-package tidal
+    :ensure t
+    :mode ("\\.tidal\\'" . tidal-mode)
+    :config
+    (setq tidal-interpreter "ghci")
+    (setq tidal-boot-script-path "/home/shoyo/.local/share/nvim/lazy/tidal.nvim/bootfiles/BootTidal.hs")
+    (defalias 'tidal-start-interpreter 'tidal-start-haskell))
+#+end_src

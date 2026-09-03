@@ -1,3 +1,6 @@
+;;; -*- lexical-binding: t; -*-
+;; Config Org mode
+
 (require 'org-tempo)
 
 (defun org-mode-setup ()
@@ -7,12 +10,12 @@
   (visual-line-mode 1))
 
 (defun org-font-setup ()
-  ;; Replace list hyphen with dot
+  ;; Substitui o hífen dos itens de lista por um bullet
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
-  ;; Set faces for heading levels
+  ;; Faces para os níveis de heading
   (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
@@ -23,7 +26,7 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "JetBrainsMono Nerd Font" :weight 'regular :height 110))
 
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  ;; Garante que blocos/código/tabela usem fixed-pitch mesmo com variable-pitch-mode
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
@@ -33,36 +36,36 @@
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
 (use-package org
-    :hook (org-mode . org-mode-setup)
-    :config
-    (setq org-M-RET-may-split-line '((default . nil)))
-    (setq org-insert-heading-respect-content t)
-    (setq org-log-done 'time)
-    (setq org-log-into-drawer t)
+  :hook (org-mode . org-mode-setup)
+  :config
+  (setq org-M-RET-may-split-line '((default . nil)))
+  (setq org-insert-heading-respect-content t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
 
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
-    (setq org-ellipsis " ▾")
-    (org-font-setup))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)")))
+  (setq org-ellipsis " ▾")
+  (org-font-setup))
 
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-  (defun org-mode-visual-fill ()
-    (setq visual-fill-column-width 150
-          visual-fill-column-center-text t)
-    (visual-fill-column-mode 1))
+(defun org-mode-visual-fill ()
+  (setq visual-fill-column-width 150
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
 
-  (use-package visual-fill-column
-    :hook (org-mode . org-mode-visual-fill))
+(use-package visual-fill-column
+  :hook (org-mode . org-mode-visual-fill))
 
 (use-package org-appear
   :ensure t
   :hook (org-mode . org-appear-mode)
   :config
-  (setq org-appear-autoemphasis t 
-        org-appear-autolinks t 
+  (setq org-appear-autoemphasis t
+        org-appear-autolinks t
         org-appear-autosubmarkers t))

@@ -1,0 +1,60 @@
+#+TITLE: Completion - minibuffer
+#+PROPERTY: header-args:emacs-lisp :tangle ./minibuffer.el :mkdirp yes :comments org :shebang ";;; -*- lexical-binding: t; -*-"
+
+- *Completion setup*:
+  - *Vertico:* A vertical completion UI
+  - *Marginalia:* Adds a marginalia to buffer
+  - *Ordeless:* Provide ordeless completion, likely a fuzzy finder, but for the minibuffer
+  - *Consult:* Provide a lot of functionalities such as consult buffers, lines, ripgrep function, see [[file: ../keybinds/general.org][keybinds]] for keyboard shortcuts
+    
+Completion inside a buffer, see [[file:company.org][company.org]].
+
+* Vertico
+Vertical completion UI based on the default completion system
+
+** Configuration:
+#+begin_src emacs-lisp
+  (use-package vertico
+    :ensure t
+    :custom
+    (vertico-resize t)
+    (vertico-cycle t)
+    :init
+    (vertico-mode))
+#+end_src
+
+* Marginalia
+This package adds marginalia to the minibuffer completions.
+
+** Configuration:
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :after vertico
+    :ensure t
+    :init
+    (marginalia-mode))
+#+end_src
+
+* Orderless
+Provides an orderless completion style
+
+** Configuration:
+#+begin_src emacs-lisp
+  (use-package orderless
+    :ensure t
+    :config
+    (setq completion-styles '(orderless basic)))
+#+end_src
+
+* Consult
+Provides search and navigation commands based on the Emacs completion function
+
+** Configuration:
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t)
+#+end_src
+
+** Shotcuts
+    -  *Key:*  /<leader> b b/  *Do:* Search and switch buffers.
+

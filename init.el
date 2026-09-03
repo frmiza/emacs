@@ -1,28 +1,16 @@
-(load-theme 'modus-vivendi)
+;; init.el
 
-(org-babel-load-file
- (expand-file-name "basic-config.org" user-emacs-directory))
+;; custom-set-*.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
-(org-babel-load-file
- (expand-file-name "config.org" user-emacs-directory))
+;; use-package.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
 
-;(use-package tidal
-;  :ensure t
-;  :mode ("\\.tidal\\'" . tidal-mode)
-;  :config
-;  (setq tidal-interpreter "ghci")
-;  ;; O segredo está nesta linha abaixo:
-;  (setq tidal-boot-script-path "/home/shoyo/.local/share/nvim/lazy/tidal.nvim/bootfiles/BootTidal.hs")
-;  (defalias 'tidal-start-interpreter 'tidal-start-haskell))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; All Packages are listed and documentend in .org files on core and modules directory
+;; core/core-loader.el to load all packages and manage memory
+(load (expand-file-name "core/core-loader.el" user-emacs-directory))

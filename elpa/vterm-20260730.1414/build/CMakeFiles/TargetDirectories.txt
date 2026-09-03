@@ -1,0 +1,4 @@
+/home/shoyo/.config/emacs/elpa/vterm-20260730.1414/build/CMakeFiles/vterm-module.dir
+/home/shoyo/.config/emacs/elpa/vterm-20260730.1414/build/CMakeFiles/run.dir
+/home/shoyo/.config/emacs/elpa/vterm-20260730.1414/build/CMakeFiles/edit_cache.dir
+/home/shoyo/.config/emacs/elpa/vterm-20260730.1414/build/CMakeFiles/rebuild_cache.dir

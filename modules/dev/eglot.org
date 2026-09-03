@@ -1,0 +1,80 @@
+#+TITLE: Dev - Eglot
+#+PROPERTY: header-args:emacs-lisp :tangle ./eglot.el :mkdirp yes :comments org :shebang ";;; -*- lexical-binding: t; -*-"
+
+Alternativa mais minimalista ao lsp-mode ([[file:lsp.org][lsp.org]],
+hoje o cliente ativo em
+[[file:../../core/core-loader.el][core-loader.el]]). Ficou de fora
+de =my/modules= — manutenção do eglot considerada antiga demais no
+momento da troca, então voltamos para lsp-mode. Preservado aqui como
+documentação/opt-in caso valha revisitar depois. Sem lsp-ui,
+lsp-treemacs ou breadcrumbs — completion vai via
+`completion-at-point-functions', que o company já usa como backend
+padrão (ver [[file:../completion/company.org][company.org]]).
+
+* Eglot
+#+begin_src emacs-lisp
+  (use-package eglot
+    :ensure nil
+    :hook ((lua-mode . eglot-ensure)
+           (c-mode . eglot-ensure)
+           (c++-mode . eglot-ensure)
+           (python-mode . eglot-ensure)
+           (rust-mode . eglot-ensure))
+    :custom
+    (eglot-autoshutdown t)
+    (eglot-events-buffer-size 0))
+#+end_src
+
+* Languages
+
+** Lua
+=lua-language-server= já é o default do eglot para =lua-mode= (ver
+`eglot-server-programs'), então só precisamos do modo em si.
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua\\'"
+    :custom
+    (lua-indent-level 2))
+#+end_src
+
+** C/C++
+Usa =cc-mode= nativo do Emacs. =clangd= também já é o default do
+eglot para c-mode/c++-mode, mas explicitamos os args para manter o
+mesmo comportamento que tínhamos no lsp-mode (índice em background,
+clang-tidy, header insertion via iwyu).
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((c-mode c++-mode)
+                   "clangd"
+                   "-j=4"
+                   "--background-index"
+                   "--clang-tidy"
+                   "--completion-style=detailed"
+                   "--header-insertion=iwyu"
+                   "--header-insertion-decorators")))
+#+end_src
+
+** Python
+Sem servidor próprio até aqui — usa =python-mode= nativo do Emacs.
+Por padrão o eglot prefere pylsp se estiver disponível; forçamos
+pyright explicitamente.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(python-mode "pyright-langserver" "--stdio")))
+#+end_src
+
+** Rust
+=rust-analyzer= já é o default do eglot para =rust-mode=.
+#+begin_src emacs-lisp
+  (use-package toml-mode)
+
+  (use-package rust-mode
+    :ensure t
+    :mode "\\.rs\\'"
+    :custom
+    ;; Automatically format files on save using rustfmt
+    (rust-format-on-save t))
+#+end_src
